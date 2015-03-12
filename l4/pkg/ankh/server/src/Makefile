@@ -9,15 +9,15 @@ SRC_CC		= main.cc session.cc device.cc
 SRC_C  = linux_glue.c
 
 # switch network cards on/off here
-NE2K    = n
+NE2K    = y
 LOOP    = y
-RTL8139 = n
+RTL8139 = y
 RTL8169 = y
-PCNET   = n
-E100    = n
+PCNET   = y
+E100    = y
 E1000   = n
-E1000E  = n
-UX      = n
+E1000E  = y
+UX      = y
 
 SRC_C-ARCH-x86         = ux.c
 REQUIRES_LIBS-ARCH-x86 = lxfuxlibc

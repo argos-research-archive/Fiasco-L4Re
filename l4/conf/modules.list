@@ -47,6 +47,46 @@ modaddr 0x01100000
 default-kernel fiasco -serial_esc
 default-bootstrap bootstrap
 
+entry dom0_server_only
+roottask moe rom/dom0_server_only.cfg
+module l4re
+module ned
+module io
+module ankh
+module dom0
+module hello
+module ankh.vbus
+module Aw.lua
+module dom0_server_only.cfg
+module stage2ned.cfg
+
+entry dom0_server_and_client
+roottask moe rom/dom0_server_and_client.cfg
+module l4re
+module ned
+module io
+module ankh
+module dom0
+module hello
+module test
+module ankh.vbus
+module Aw.lua
+module dom0_server_and_client.cfg
+module stage2ned.cfg
+
+entry lwip
+roottask moe rom/lwip.lua
+module l4re
+module ned
+module io
+module ankh
+module dom0
+module hello
+module ankh.vbus
+module Aw.lua
+module lwip.lua
+module lwip_test
+
 entry hello
 roottask moe --init=rom/hello
 module l4re

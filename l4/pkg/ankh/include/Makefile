@@ -5,10 +5,11 @@ L4DIR	?= $(PKGDIR)/../..
 # installed in a way that they can be included with
 # #include <l4/pkgname/yourfile.h> later.
 # No need to list them in this Makefile.
-
+REQUIRES_LIBS    = libpthread
 EXTRA_TARGET += lock \
 				protocol \
 				session  \
 				shm
+
 
 include $(L4DIR)/mk/include.mk
