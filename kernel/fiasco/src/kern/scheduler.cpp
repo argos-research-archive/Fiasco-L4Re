@@ -30,6 +30,8 @@ IMPLEMENTATION:
 #include "l4_types.h"
 #include "entry_frame.h"
 
+#include "debug_output.h"
+
 FIASCO_DEFINE_KOBJ(Scheduler);
 
 Scheduler Scheduler::scheduler;
@@ -105,7 +107,25 @@ Scheduler::sys_run(L4_fpage::Rights, Syscall_frame *f, Utcb const *utcb)
   else
     info.cpu = sched_param->cpus.first(Cpu::present_mask(), Config::max_num_cpus());
 
+  /* Own work */
+#ifdef CONFIG_SCHED_FP_EDF
+  if (utcb->values[5] > 0)
+  {
+    // Some deadline has been passed, so our thread becomes a deadline-based thread
+    dbgprintf("[Scheduler::sys_run] Deadline passed for id:%lx is: %lu\n", thread->dbg_id(), utcb->values[5]);
+    L4_sched_param_deadline sched_p;
+    sched_p.sched_class     = -3;
+    sched_p.deadline        = utcb->values[5];
+    thread->sched_context()->set(static_cast<L4_sched_param*>(&sched_p));
+  }
+  else
+  {
+    info.sp = sched_param;
+  }
+#else
   info.sp = sched_param;
+#endif
+
   if (0)
     printf("CPU[%u]: run(thread=%lx, cpu=%u (%lx,%u,%u)\n",
            cxx::int_value<Cpu_number>(curr_cpu), thread->dbg_id(),

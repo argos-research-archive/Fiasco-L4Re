@@ -8,7 +8,7 @@ INTERFACES_KERNEL	:= cpu_mask rcupdate kobject_mapdb context_base pm \
 			   dbg_page_info mapdb pic kobject_dbg koptions      \
 			   kobject_iface kobject ready_queue_wfq             \
                            obj_space_types obj_space_phys_util \
-			   ready_queue_fp obj_space ptab_base ram_quota      \
+			   ready_queue_fp ready_queue_edf obj_space ptab_base ram_quota      \
 			   ref_obj mem_space space string_buffer \
 			   vlog kmem kmem_alloc slab_cache mem_layout        \
 			   kmem_slab switch_lock kip_init   \
@@ -27,7 +27,8 @@ INTERFACES_KERNEL	:= cpu_mask rcupdate kobject_mapdb context_base pm \
 			   continuation timer_tick platform_control          \
 			   sched_context utcb_init perf_cnt trap_state       \
 			   buddy_alloc vkey kdb_ke prio_list ipi scheduler   \
-			   clock vm_factory sys_call_page boot_alloc
+			   clock vm_factory sys_call_page boot_alloc         \
+                           debug_output
 
 OBJ_SPACE_TYPE = $(if $(CONFIG_VIRT_OBJ_SPACE),virt,phys)
 PREPROCESS_PARTS-y$(CONFIG_VIRT_OBJ_SPACE) = obj_space_phys

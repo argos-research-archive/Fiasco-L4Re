@@ -95,6 +95,17 @@ l4_scheduler_info_u(l4_cap_idx_t scheduler, l4_umword_t *cpu_max,
 
 
 /**
+ * \brief Type of scheduler parameter
+ * \ingroup l4_scheduler_api
+ * \author Valentin Hauner
+ */
+typedef enum l4_sched_param_type_t
+{
+  Fixed_prio = 1,
+  Deadline   = 2
+} l4_sched_param_type_t;
+
+/**
  * \brief Scheduler parameter set.
  * \ingroup l4_scheduler_api
  */
@@ -102,6 +113,7 @@ typedef struct l4_sched_param_t
 {
   l4_cpu_time_t      quantum;  ///< Timeslice in micro seconds.
   unsigned           prio;     ///< Priority for scheduling.
+  unsigned           deadline; ///< Deadline for scheduling (own work).
   l4_sched_cpu_set_t affinity; ///< CPU affinity.
 } l4_sched_param_t;
 
@@ -111,6 +123,15 @@ typedef struct l4_sched_param_t
  */
 L4_INLINE l4_sched_param_t
 l4_sched_param(unsigned prio,
+               l4_cpu_time_t quantum L4_DEFAULT_PARAM(0)) L4_NOTHROW;
+
+/**
+ * \brief Construct scheduler parameter by type.
+ * \ingroup l4_scheduler_api
+ * \author Valentin Hauner
+ */
+L4_INLINE l4_sched_param_t
+l4_sched_param_by_type(l4_sched_param_type_t type, unsigned metric,
                l4_cpu_time_t quantum L4_DEFAULT_PARAM(0)) L4_NOTHROW;
 
 /**
@@ -202,11 +223,32 @@ l4_sched_cpu_set(l4_umword_t offset, unsigned char granularity,
   return cs;
 }
 
+/* Own work */
+L4_INLINE l4_sched_param_t
+l4_sched_param_by_type(l4_sched_param_type_t type, unsigned metric, l4_cpu_time_t quantum) L4_NOTHROW
+{
+  l4_sched_param_t sp;
+  if (type == Fixed_prio)
+  {
+    sp.prio = metric;
+    sp.deadline = 0;
+  }
+  else
+  {
+    sp.prio = 0;
+    sp.deadline = metric;
+  }
+  sp.quantum  = quantum;
+  sp.affinity = l4_sched_cpu_set(0, ~0, 1);
+  return sp;
+}
+
 L4_INLINE l4_sched_param_t
 l4_sched_param(unsigned prio, l4_cpu_time_t quantum) L4_NOTHROW
 {
   l4_sched_param_t sp;
   sp.prio     = prio;
+  sp.deadline = 0; // Own work
   sp.quantum  = quantum;
   sp.affinity = l4_sched_cpu_set(0, ~0, 1);
   return sp;
@@ -246,10 +288,13 @@ l4_scheduler_run_thread_u(l4_cap_idx_t scheduler, l4_cap_idx_t thread,
   m->mr[2] = sp->affinity.map;
   m->mr[3] = sp->prio;
   m->mr[4] = sp->quantum;
-  m->mr[5] = l4_map_obj_control(0, 0);
-  m->mr[6] = l4_obj_fpage(thread, 0, L4_FPAGE_RWX).raw;
+  m->mr[5] = sp->deadline; /* Own work */
+  m->mr[6] = l4_map_obj_control(0, 0);
+  m->mr[7] = l4_obj_fpage(thread, 0, L4_FPAGE_RWX).raw;
 
-  return l4_ipc_call(scheduler, utcb, l4_msgtag(L4_PROTO_SCHEDULER, 5, 1, 0), L4_IPC_NEVER);
+  // The second argument of the message tag (here: literal 6) denotes how many message registers to transfer
+  // The third argument of the message tag (here: literal 1) denotes which thread to schedule
+  return l4_ipc_call(scheduler, utcb, l4_msgtag(L4_PROTO_SCHEDULER, 6, 1, 0), L4_IPC_NEVER);
 }
 
 L4_INLINE l4_msgtag_t

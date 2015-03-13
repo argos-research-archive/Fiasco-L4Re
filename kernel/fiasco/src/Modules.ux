@@ -17,6 +17,7 @@ PREPROCESS_PARTS-$(CONFIG_CONTEXT_4K)        += context_4k
 PREPROCESS_PARTS-$(CONFIG_SCHED_FIXED_PRIO)  += sched_fixed_prio
 PREPROCESS_PARTS-$(CONFIG_SCHED_WFQ)         += sched_wfq
 PREPROCESS_PARTS-$(CONFIG_SCHED_FP_WFQ)      += sched_fp_wfq
+PREPROCESS_PARTS-$(CONFIG_SCHED_FP_EDF)      += sched_fp_edf
 
 PREPROCESS_PARTS        += $(PREPROCESS_PARTS-y)
 
@@ -89,7 +90,7 @@ INTERFACES_KERNEL	:= string_buffer mem_region simpleio kernel_console panic warn
 			   ref_obj                                \
 			   slab_cache kmem_slab dbg_page_info   \
 			   vmem_alloc paging fpu_state fpu	  \
-			   ready_queue_wfq ready_queue_fp \
+			   ready_queue_wfq ready_queue_fp ready_queue_edf \
 			   sched_context switch_lock timer timeout	  \
 			   obj_space kobject_dbg kobject kobject_iface    \
 			   l4_buf_iter lock  clock \
@@ -134,7 +135,8 @@ INTERFACES_KERNEL	:= string_buffer mem_region simpleio kernel_console panic warn
 			   jdb_log jdb_factory scheduler \
                            platform_control_object    \
 			   jdb_scheduler jdb_sender_list            \
-			   jdb_disasm jdb_regex jdb_report
+			   jdb_disasm jdb_regex                     \
+                           debug_output
 
 boot_info_IMPL		:= boot_info boot_info-ia32 boot_info-ux
 clock_IMPL              := clock clock-ia32
@@ -180,8 +182,8 @@ paging_IMPL		:= paging-ia32-32 paging-ia32 paging
 perf_cnt_IMPL		:= perf_cnt perf_cnt-ia32
 pic_IMPL		:= pic pic-ux
 pmem_alloc_IMPL		:= pmem_alloc pmem_alloc-ia32-ux
-sched_context_IMPL	:= sched_context-wfq sched_context-fixed_prio \
-			   sched_context-fp_wfq sched_context
+sched_context_IMPL      := sched_context-wfq sched_context-fixed_prio \
+                           sched_context-fp_wfq sched_context-fp_edf sched_context
 space_IMPL		:= space space-ux 
 syscalls_IMPL		:= syscalls syscalls-log
 sys_call_page_IMPL	:= sys_call_page sys_call_page-abs-ux

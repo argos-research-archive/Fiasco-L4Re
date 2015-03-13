@@ -407,6 +407,9 @@ Thread::get_next_sender(Sender *sender)
   return 0;
 }
 
+PUBLIC
+static void
+Thread::print_bits(int s,void* p){int i,j;for(i=s-1;i>=0;i--)for(j=7;j>=0;j--)printf("%u",(*((unsigned char*)p+i)&(1<<j))>>j);puts("");}
 
 /**
  * Send an IPC message.
@@ -429,6 +432,11 @@ Thread::do_ipc(L4_msg_tag const &tag, bool have_send, Thread *partner,
 
   bool do_switch = false;
 
+  if (state() & Thread_ipc_mask) {
+    printf("Thread_ipc_mask: %d ; state flags: ", Thread_ipc_mask);
+    unsigned short _state = state();
+    print_bits(sizeof(_state), &_state);
+  }
   assert_kdb (!(state() & Thread_ipc_mask));
 
   prepare_receive(sender, have_receive ? regs : 0);

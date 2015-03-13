@@ -585,8 +585,14 @@ config SCHED_FP_WFQ
 	bool "Combined fixed priority RT and WFQ scheduler"
 	depends on EXPERIMENTAL
 	help
-	  Combination of Fixed priority and weighted fair queueing
+	  Combination of fixed priority and weighted fair queueing
 	  scheduler.
+
+config SCHED_FP_EDF
+        bool "Combined fixed priority and Earliest Deadline First scheduler"
+        help
+          Choose this for the combination of the fixed priority scheduler
+          and the real-time capable Earliest Deadline First (EDF) scheduler
 
 endchoice
 
@@ -604,6 +610,13 @@ config VIRT_OBJ_SPACE
 endmenu # kernel options
 
 menu "Debugging"
+
+config DEBUG_OUTPUT
+        bool "Print information useful for debugging"
+        default y
+        help
+          Information of kernel objects and method calls useful for debugging
+          is printed to stdout
 
 config INLINE
 	bool "Generate inline code"

@@ -372,6 +372,23 @@ Jdb_thread_list::sc_iter_next(Sched_context *)
 
 
 // --------------------------------------------------------------------------
+IMPLEMENTATION [sched_fp_edf]:
+static inline NOEXPORT
+Sched_context *
+Jdb_thread_list::sc_iter_prev(Sched_context *)
+{
+  return 0;
+}
+
+static inline NOEXPORT
+Sched_context *
+Jdb_thread_list::sc_iter_next(Sched_context *)
+{
+  return 0;
+}
+
+
+// --------------------------------------------------------------------------
 IMPLEMENTATION:
 
 
