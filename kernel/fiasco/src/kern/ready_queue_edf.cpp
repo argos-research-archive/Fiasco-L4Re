@@ -139,8 +139,8 @@ Ready_queue_edf<E>::enqueue(E *i, bool /*is_current_sched*/)
     if (!inserted)
     {
       // Has not been enqueued yet
-      rq.insert_after(i, --it);
-      // Decrement is necessary as 'it' points to the front of the list after having executed the while loop
+      // Deadline is bigger than any other -> insert at back
+      rq.push_back(i);
       dbgprintf(" at back (deadline: %d)\n", deadline);
     }
   }

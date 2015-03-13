@@ -162,6 +162,9 @@ public:
   class Iterator : public Base::Iterator
   {
   public:
+
+    Iterator() {};
+
     Iterator &operator ++ ()
     {
       if (this->_c)
@@ -174,7 +177,7 @@ public:
     }
 
     Iterator &operator -- () = delete;
-
+    
   private:
     friend class Sd_list;
 
@@ -236,6 +239,9 @@ public:
     remove(*e);
     return __iter(n);
   }
+  
+  static Iterator iter(T const *e) { return Iterator(const_cast<T*>(e)); }
+  
 
   void push(T *e, Pos pos)
   {
