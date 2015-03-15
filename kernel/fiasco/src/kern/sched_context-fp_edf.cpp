@@ -125,7 +125,7 @@ IMPLEMENTATION [sched_fp_edf]:
 PUBLIC
 Sched_context::Sched_context()
 {
-  dbgprintf("[Sched_context] Created Sched_context object with type:Fixed_prio\n");
+  dbgprintf("[Sched_context] Created default Sched_context object with type:Fixed_prio\n");
   _t = Fixed_prio;
   _sc.fp._p = Config::Default_prio;
   _sc.fp._q = Config::Default_time_slice;

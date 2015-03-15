@@ -107,7 +107,7 @@ Ready_queue_edf<E>::enqueue(E *i, bool /*is_current_sched*/)
   // Insert new Sched_context at the right position,
   // e.g. keep ascending order of the queue from short to large deadlines
   dbgprintf("[Ready_queue_edf::enqueue] Inserted id:%lx", Kobject_dbg::obj_to_id(i->context()));
-  typename List::Iterator it;
+  typename List::BaseIterator it;
   if (rq.empty())
   {
     rq.push_front(i);

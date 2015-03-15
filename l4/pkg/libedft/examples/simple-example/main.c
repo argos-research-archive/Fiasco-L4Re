@@ -17,7 +17,6 @@
 #include <l4/libedft/edft.h>
 
 #include <stdio.h>
-#include <unistd.h>
 
 void thread_func(l4_umword_t);
 
