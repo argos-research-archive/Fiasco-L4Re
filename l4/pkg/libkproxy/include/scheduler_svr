@@ -94,9 +94,10 @@ Scheduler_svr_t<SVR>::scheduler_dispatch(l4_umword_t,
 	  l4_sched_param_t sp;
           L4::Ipc::Snd_fpage thread;
 	    {
-	      l4_umword_t gran_off, prio, quantum;
-	      ios >> gran_off >> sp.affinity.map >> prio >> quantum >> thread;
+	      l4_umword_t gran_off, prio, quantum, deadline;
+	      ios >> gran_off >> sp.affinity.map >> prio >> quantum >> deadline >> thread;
 	      sp.prio = prio;
+	      sp.deadline = deadline;
 	      sp.quantum = quantum;
 	      sp.affinity.offset = gran_off & 0x00ffffff;
 	      sp.affinity.granularity = gran_off >> 24;

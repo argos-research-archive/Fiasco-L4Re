@@ -216,10 +216,10 @@ int lua(int argc, char const *const *argv)
       printf("Ned: loading file: '%s'\n", argv[c]);
       int e = luaL_dofile(L, argv[c]);
       if (e)
-	{
-	  char const *error = lua_tostring(L, -1);
-	  printf("Ned: ERROR: %s\n", error);
-	}
+      {
+        char const *error = lua_tostring(L, -1);
+        printf("Ned: ERROR: %s\n", error);
+      }
       lua_pop(L, lua_gettop(L));
     }
 
