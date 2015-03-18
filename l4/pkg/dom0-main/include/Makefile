@@ -1,5 +1,5 @@
 PKGDIR	?= ..
-L4DIR	?= $(PKGDIR)/../l4
+L4DIR	?= $(PKGDIR)/../..
 
 # All header files found in this directory tree will be automatically
 # installed in a way that they can be included with

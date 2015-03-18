@@ -1,0 +1,3 @@
+provides: dom0-main
+requires: ankh l4re-util l4util lwip
+maintainer: j.stark@tum.de

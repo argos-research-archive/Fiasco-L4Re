@@ -26,6 +26,11 @@
 #include <cstdlib>
 #include <cstring>
 
+#include <stdio.h>
+#include <l4/cxx/ipc_stream>
+#include <l4/util/util.h>
+#include <l4/dom0-main/ipc_protocol.h>
+
 #include "region.h"
 #include "page_alloc.h"
 #include "globals.h"
@@ -222,9 +227,69 @@ int main(int argc, char const *argv[])
   L4::Cap<Dataspace> file;
 
   boot.printf("load binary '%s'\n", Global::l4re_aux->binary);
-
-  file = L4Re_app_model::open_file(Global::l4re_aux->binary);
-
+  
+  if (strcmp(Global::l4re_aux->binary, "network") == 0)
+  {
+    printf("Loading network-received binary!\n");
+    L4::Cap<void> server = L4Re::Env::env()->get_cap<void>("l4re_ipc");
+    if (!server.is_valid())
+    {
+      printf("Could not get server capability!\n");
+      return 1;
+    }
+    printf("Got IPC gate.\n");
+    L4::Cap<L4Re::Dataspace> ds = L4Re::Util::cap_alloc.alloc<
+    L4Re::Dataspace>();
+    if (!ds.is_valid())
+    {
+      printf("Could not get capability slot!\n");
+      return 1;
+    }
+    L4::Ipc::Iostream s(l4_utcb());
+    //We want to get the shared dataspace ->
+    //Write the corresponding opcode and
+    //Small_buf(ds) into the stream and send it.
+    //The IPC server will write its dataspace into the
+    //stream and answer. The kernel detects this
+    //and maps the capability of the shared dataspace into ds.
+    s << L4::Opcode(Opcode::getSharedDataspace);
+    s << L4::Ipc::Small_buf(ds);
+    int r = l4_error(s.call(server.cap(), Protocol::l4reIpc));
+    if (r)
+    {
+      printf("error\n");
+      return r; // failure
+    }
+    printf("Got shared dataspace with target binary.\n");
+    //Since dom0 might want to reuse ds for other binaries,
+    //we copy its contents into file and then use launch file.
+    file=L4Re_app_model::alloc_ds(ds->size());
+    L4Re_app_model::copy_ds(file,0,ds,0,ds->size());
+    if(r)
+    {
+      printf("error on copying ds: %s\n",l4sys_errtostr(r));
+      return -1;
+    }
+    printf("Dataspace copied.\n");
+    //Notify dom0 that we finished copying.
+    s.reset();
+    s << L4::Opcode(Opcode::dataspaceCopyFinished);
+    r = l4_error(s.call(server.cap(), Protocol::l4reIpc));
+    if (r)
+    {
+      printf("error\n");
+      return r; // failure
+    }
+    printf("Sent OK message to dom0.\n");
+  }
+  
+  else
+  {
+    printf("Loading binary from ROM.\n");
+    file = L4Re_app_model::open_file(Global::l4re_aux->binary);
+  }
+  
+  
   loader.start(file, Global::local_rm, Global::l4re_aux);
 
   // Raise RM prio to its MCP

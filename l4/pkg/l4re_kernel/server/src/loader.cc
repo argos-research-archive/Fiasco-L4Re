@@ -71,7 +71,7 @@ void unmap_stack_and_start()
 }
 
 L4Re_app_model::Dataspace
-L4Re_app_model::alloc_ds(unsigned long size) const
+L4Re_app_model::alloc_ds(unsigned long size)
 {
   Dataspace mem = chkcap(Global::cap_alloc.alloc<L4Re::Dataspace>(),
       "ELF loader: could not allocate capability");

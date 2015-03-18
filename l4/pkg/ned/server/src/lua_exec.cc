@@ -309,7 +309,6 @@ static int __task_wait(lua_State *l)
     }
 
   L4::Ipc::Iostream s(l4_utcb());
-  
   s << pthread_getl4cap(pthread_self()) << l4_addr_t(t.get());
   s.call(observer->obj_cap().cap());
 

@@ -1,5 +1,5 @@
 PKGDIR	?= ../..
-L4DIR	?= $(PKGDIR)/../l4
+L4DIR	?= $(PKGDIR)/../..
 
 TARGET           = dom0
 SRC_CC           = main.cc dom0_server.cc l4re_shared_ds_server.cc lua_ipc_client.cc remote_dom0_instance.cc tcp_socket.cc tcp_client_socket.cc tcp_server_socket.cc 
