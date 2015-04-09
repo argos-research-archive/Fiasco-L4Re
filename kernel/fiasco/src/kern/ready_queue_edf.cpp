@@ -175,6 +175,24 @@ Ready_queue_edf<E>::dequeue(E *i)
   rq.remove(i);
   _e(i)->_ready_link = 0;
   count--;
+  typename List::BaseIterator it;
+  if (count)
+  {
+     it = List::iter(rq.front());
+     dbgprintf(ANSI_BOLD "edf_rq: ");
+     do
+     {
+       dbgprintf("%lx(dl:%d) => ",
+                  Kobject_dbg::obj_to_id(it->context()),
+                  it->deadline());
+     }
+     while (++it != List::iter(rq.front()));
+     dbgprintf("end\n" ANSI_BOLD_RESET);
+  }
+  else
+  {
+    dbgprintf(ANSI_BOLD "edf_rq: empty\n" ANSI_BOLD_RESET);
+  }
 }
 
 /**

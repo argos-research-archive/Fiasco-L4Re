@@ -339,6 +339,9 @@ Sched_context::Ready_queue_base::dequeue(Sched_context *sc)
   if (sc->_t == Fixed_prio)
     fp_rq.dequeue(sc);
   else
+    dbgprintf("[Sched_context::dequeue] Dequeuing Sched_context object in edf_rq (id:%lx, dl:%d)\n",
+              Kobject_dbg::obj_to_id(sc->context()),
+              sc->deadline());
     edf_rq.dequeue(sc);
 }
 
