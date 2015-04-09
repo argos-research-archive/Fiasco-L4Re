@@ -1,4 +1,4 @@
-#include "tcp_server_socket.h"
+#include <l4/dom0/tcp_server_socket.h>
 
 #include <unistd.h>
 #include <lwip-util.h>

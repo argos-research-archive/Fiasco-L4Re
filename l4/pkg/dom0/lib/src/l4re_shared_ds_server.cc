@@ -1,7 +1,7 @@
-#include "l4re_shared_ds_server.h"
+#include <l4/dom0/l4re_shared_ds_server.h>
 
-#include <l4/dom0-main/communication_magic_numbers.h>
-#include <l4/dom0-main/ipc_protocol.h>
+#include <l4/dom0/communication_magic_numbers.h>
+#include <l4/dom0/ipc_protocol.h>
 
 #include <stdio.h>
 

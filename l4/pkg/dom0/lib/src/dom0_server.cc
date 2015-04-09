@@ -1,8 +1,8 @@
-#include "dom0_server.h"
+#include <l4/dom0/dom0_server.h>
 
-#include "tcp_server_socket.h"
-#include "lua_ipc_client.h"
-#include "thread_args.h"
+#include <l4/dom0/tcp_server_socket.h>
+#include <l4/dom0/lua_ipc_client.h>
+#include <l4/dom0/thread_args.h>
 
 #include <l4/re/env>
 #include <l4/re/util/cap_alloc>
@@ -10,8 +10,8 @@
 #include <l4/util/util.h>
 
 
-#include <l4/dom0-main/communication_magic_numbers.h>
-#include <l4/dom0-main/ipc_protocol.h>
+#include <l4/dom0/communication_magic_numbers.h>
+#include <l4/dom0/ipc_protocol.h>
 
 
 

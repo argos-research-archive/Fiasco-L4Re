@@ -53,7 +53,7 @@ module l4re
 module ned
 module io
 module ankh
-module dom0
+module dom0ClientServer
 module hello
 module ankh.vbus
 module Aw.lua
@@ -66,7 +66,7 @@ module l4re
 module ned
 module io
 module ankh
-module dom0
+module dom0ClientServer
 module hello
 module test
 module ankh.vbus
@@ -80,7 +80,6 @@ module l4re
 module ned
 module io
 module ankh
-module dom0
 module hello
 module ankh.vbus
 module Aw.lua
@@ -131,6 +130,13 @@ module mixed-example
 entry automotive-example
 roottask moe --init=rom/automotive-example
 module l4re
+module automotive-example
+
+entry automotive-example-lua
+roottask moe rom/automotive-example.lua
+module l4re
+module ned
+module automotive-example.lua
 module automotive-example
 
 entry ex_utcb_ipc

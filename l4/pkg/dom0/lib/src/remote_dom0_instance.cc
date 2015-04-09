@@ -1,6 +1,6 @@
-#include "remote_dom0_instance.h"
+#include <l4/dom0/remote_dom0_instance.h>
 
-#include <l4/dom0-main/communication_magic_numbers.h>
+#include <l4/dom0/communication_magic_numbers.h>
 
 int32_t RemoteDom0Instance::loadFile(const char* filename, char*& buffer)
 {

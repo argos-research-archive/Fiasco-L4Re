@@ -25,8 +25,8 @@
 #include <l4/cxx/ipc_server>
 #include <l4/cxx/ipc_stream>
 
-#include <l4/dom0-main/ipc_protocol.h>
-#include <l4/dom0-main/communication_magic_numbers.h>
+#include <l4/dom0/ipc_protocol.h>
+#include <l4/dom0/communication_magic_numbers.h>
 
 #include <stdint.h>
 
@@ -165,11 +165,11 @@ int lua(int argc, char const *const *argv)
   while ((opt = getopt_long(argc, const_cast<char *const*>(argv), options, loptions, NULL)) != -1)
     {
       switch (opt)
-	{
-	case 'i': interactive = true; break;
-	case 's': ipcServer = true; break;
-	default: break;
-	}
+      {
+        case 'i': interactive = true; break;
+        case 's': ipcServer = true; break;
+        default: break;
+      }
     }
 
 
@@ -226,9 +226,8 @@ int lua(int argc, char const *const *argv)
       //Register server
       if (!server.registry()->register_obj(&neddy, "lua_ipc").is_valid())
       {
-	printf(
-	  "Could not register my service, is there a 'ned_server' in the caps table?\n");
-	return 1;
+        printf("Could not register my service, is there a 'ned_server' in the caps table?\n");
+        return 1;
       }
       
       printf("Hello and welcome to the ned server!\n"

@@ -27,15 +27,15 @@ extern "C"
 #include <pthread-l4.h>
 
 
-#include "remote_dom0_instance.h"
-#include "dom0_server.h"
-#include "thread_args.h"
-#include "l4re_shared_ds_server.h"
-#include "lua_ipc_client.h"
-#include "tcp_server_socket.h"
-#include "tcp_client_socket.h"
-#include <l4/dom0-main/communication_magic_numbers.h>
-#include <l4/dom0-main/ipc_protocol.h>
+#include <l4/dom0/remote_dom0_instance.h>
+#include <l4/dom0/dom0_server.h>
+#include <l4/dom0/thread_args.h>
+#include <l4/dom0/l4re_shared_ds_server.h>
+#include <l4/dom0/lua_ipc_client.h>
+#include <l4/dom0/tcp_server_socket.h>
+#include <l4/dom0/tcp_client_socket.h>
+#include <l4/dom0/communication_magic_numbers.h>
+#include <l4/dom0/ipc_protocol.h>
 
 #include <stdio.h>
 #include <iostream>
@@ -144,7 +144,6 @@ static void* clientDemo(void* args)
 
 int main(int argc, char **argv)
 {
-   printf("DOM0 MAIN\n");
 	//Initialize stuff
 	L4::Cap<L4Re::Dataspace> ds;
 	LuaIpcClient luaIpc("lua_ipc");

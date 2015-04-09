@@ -1,6 +1,6 @@
-#include "tcp_client_socket.h"
+#include <l4/dom0/tcp_client_socket.h>
 
-#include <l4/dom0-main/communication_magic_numbers.h>
+#include <l4/dom0/communication_magic_numbers.h>
 #include <unistd.h>
 
 

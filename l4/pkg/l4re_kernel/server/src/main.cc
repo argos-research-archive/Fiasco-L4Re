@@ -29,7 +29,7 @@
 #include <stdio.h>
 #include <l4/cxx/ipc_stream>
 #include <l4/util/util.h>
-#include <l4/dom0-main/ipc_protocol.h>
+#include <l4/dom0/ipc_protocol.h>
 
 #include "region.h"
 #include "page_alloc.h"

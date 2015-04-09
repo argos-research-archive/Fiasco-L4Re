@@ -1,10 +1,10 @@
-#include "lua_ipc_client.h"
+#include <l4/dom0/lua_ipc_client.h>
 
 #include <l4/re/util/cap_alloc>
 #include <l4/re/env>
 #include <l4/cxx/ipc_stream>
-#include <l4/dom0-main/communication_magic_numbers.h>
-#include <l4/dom0-main/ipc_protocol.h>
+#include <l4/dom0/communication_magic_numbers.h>
+#include <l4/dom0/ipc_protocol.h>
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
